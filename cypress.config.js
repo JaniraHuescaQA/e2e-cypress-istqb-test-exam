@@ -22,8 +22,8 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents,
     specPattern: "cypress/e2e/features/*.feature",
-    projectId: "438j27",
-    baseUrl: "https://bootcampqa.com/",
+    projectId: "s7brvj",
+    baseUrl: "https://janirahuescaqa.github.io/istqb-test-exam/",
     chromeWebSecurity: true
   },
 });
