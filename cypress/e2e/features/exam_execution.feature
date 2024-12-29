@@ -6,7 +6,7 @@ Feature: ISTQB Exam Grading
 
 Background:
     Given the user visits the ISTQB exam homepage
-    And the user fills the first name with "Janira"
+    And the user fills the first name field with "Janira"
     And the user fills the last name field with "Huesca"
     And the user clicks on the Sign Up button
 

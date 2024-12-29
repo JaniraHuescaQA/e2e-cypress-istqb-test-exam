@@ -18,7 +18,7 @@ const SIGNUP_FORM = '[data-testid="signupform"]';
 
 // SCENARIO 1
 
-When("the user fills the first name with {string}", (firstname) => {
+When("the user fills the first name field with {string}", (firstname) => {
   // Get the first name element and clear the content
   cy.get(FIRST_NAME_FIELD)
     .clear();
