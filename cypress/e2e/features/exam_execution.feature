@@ -18,3 +18,12 @@ Scenario: Exam Passed
     Then the user should see the corrected questions
     And the user should see a final score of "12"
     And the final score should appear in green
+
+Scenario: Exam Failed
+    When the user answers 1 question correctly
+    And the user answers 8 questions incorrectly
+    And the user leaves 1 question unanswered
+    And the user clicks on the Finish Exam button
+    Then the user should see the questions correction
+    And the user should see a final score of "0"
+    And the final score should appear in red

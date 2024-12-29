@@ -13,6 +13,12 @@ const CORRECT_ANSWER_QUESTION_4 = '[data-testid="q4-b"]';
 const CORRECT_ANSWER_QUESTION_5 = '[data-testid="q5-c"]';
 const CORRECT_ANSWER_QUESTION_6 = '[data-testid="q6-c"]';
 const CORRECT_ANSWER_QUESTION_7 = '[data-testid="q7-a"]';
+const INCORRECT_ANSWER_QUESTION_2 = '[data-testid="q2-b"]';
+const INCORRECT_ANSWER_QUESTION_3 = '[data-testid="q3-b"]';
+const INCORRECT_ANSWER_QUESTION_4 = '[data-testid="q4-c"]';
+const INCORRECT_ANSWER_QUESTION_5 = '[data-testid="q5-a"]';
+const INCORRECT_ANSWER_QUESTION_6 = '[data-testid="q6-a"]';
+const INCORRECT_ANSWER_QUESTION_7 = '[data-testid="q7-b"]';
 const INCORRECT_ANSWER_QUESTION_8 = '[data-testid="q8-b"]';
 const INCORRECT_ANSWER_QUESTION_9 = '[data-testid="q9-b"]';
 const FINISH_EXAM_BUTTON = '[data-testid="finish-exam-button"]';
@@ -115,24 +121,70 @@ Then("the user should see the corrected questions", () => {
       .should('have.css', 'color', 'rgb(0, 128, 0)');
   });
 
-  /*
-      Scenario: Exam Passed
-    When the user answers 7 questions correctly
-    And the user answers 2 questions incorrectly
-    And the user leaves 1 question unanswered
-    And the user clicks on the Finish Exam button
-    Then the user should see the corrected questions
-    And the user should see a final score of "14"
-    And the final score should appear in green
-    And the user should see a message "Exam score: 14. PASS"
+  // SCENARIO 2
 
-Scenario: Exam Failed
-    When the user answers 1 question correctly
-    And the user answers 8 questions incorrectly
-    And the user leaves 2 questions unanswered
-    And the user clicks on the Finish Exam button
-    Then the user should see the corrected questions
-    And the user should see a final score of "0"
-    And the final score should appear in red
-    And the user should see a message "Exam score: 0. FAIL"
-  */
+When("the user answers 1 question correctly", () => {
+  // Get the correct answer for question 1 and select it
+  cy.get(CORRECT_ANSWER_QUESTION_1)
+    .check();
+});
+
+When("the user answers 8 questions incorrectly", () => {
+  // Get an incorrect answer for questions 2 to 9 and select them
+  cy.get(INCORRECT_ANSWER_QUESTION_2)
+  .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_3)
+  .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_4)
+  .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_5)
+    .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_6)
+    .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_7)
+  .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_8)
+  .check();
+  cy.get(INCORRECT_ANSWER_QUESTION_9)
+    .check();
+});
+
+Then("the user should see the questions correction", () => {
+  // Get the grade message element and validate that is visible and contains the expected text
+  cy.get(GRADE_MESSAGE_QUESTION_1)
+    .should('be.visible')
+    .and('contain', "Score for question 1: 2");
+  cy.get(GRADE_MESSAGE_QUESTION_2)
+    .should('be.visible')
+    .and('contain', "Score for question 2: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_3)
+    .should('be.visible')
+    .and('contain', "Score for question 3: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_4)
+    .should('be.visible')
+    .and('contain', "Score for question 4: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_5)
+    .should('be.visible')
+    .and('contain', "Score for question 5: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_6)
+    .should('be.visible')
+    .and('contain', "Score for question 6: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_7)
+    .should('be.visible')
+    .and('contain', "Score for question 7: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_8)
+    .should('be.visible')
+    .and('contain', "Score for question 8: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_9)
+    .should('be.visible')
+    .and('contain', "Score for question 9: -1");
+  cy.get(GRADE_MESSAGE_QUESTION_10)
+    .should('be.visible')
+    .and('contain', "Score for question 10: 0");
+});
+
+Then("the final score should appear in red", () => {
+  // Get the grade message element and validate that its color is green
+  cy.get(GRADE_EXAM_MESSAGE)
+    .should('have.css', 'color', 'rgb(255, 0, 0)');
+});
