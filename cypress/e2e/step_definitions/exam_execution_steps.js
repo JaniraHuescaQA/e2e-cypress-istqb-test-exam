@@ -1,7 +1,7 @@
 import {
-    Given,
-    When,
-    Then,
+  Given,
+  When,
+  Then,
 } from "@badeball/cypress-cucumber-preprocessor";
 
 // Constants
@@ -39,139 +39,64 @@ const GRADE_EXAM_MESSAGE = '[data-testid="grade-exam-message"]';
 // SCENARIO 1
 
 When("the user answers 7 questions correctly", () => {
-    // Get the correct answer for questions 1 to 7 and select them
-    cy.get(CORRECT_ANSWER_QUESTION_1)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_2)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_3)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_4)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_5)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_6)
-      .check();
-    cy.get(CORRECT_ANSWER_QUESTION_7)
-      .check();
+  // Get the correct answer for questions 1 to 7 and select them
+  cy.get(CORRECT_ANSWER_QUESTION_1)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_2)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_3)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_4)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_5)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_6)
+    .check();
+  cy.get(CORRECT_ANSWER_QUESTION_7)
+    .check();
 });
 
 When("the user answers 2 questions incorrectly", () => {
-    // Get an incorrect answer for questions 8 to 9 and select them
-    cy.get(INCORRECT_ANSWER_QUESTION_8)
-      .check();
-    cy.get(INCORRECT_ANSWER_QUESTION_9)
-      .check();
-});
-
-When("the user leaves 1 question unanswered", () => {
-    // Without action, because the question 10 is left without answering
-});
-
-When("the user clicks on the Finish Exam button", () => {
-  // Get the finish exam button and click on it
-  cy.get(FINISH_EXAM_BUTTON)
-    .click();
-});
-
-Then("the user should see the corrected questions", () => {
-    // Get the grade message element and validate that is visible and contains the expected text
-    cy.get(GRADE_MESSAGE_QUESTION_1)
-      .should('be.visible')
-      .and('contain', "Score for question 1: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_2)
-      .should('be.visible')
-      .and('contain', "Score for question 2: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_3)
-      .should('be.visible')
-      .and('contain', "Score for question 3: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_4)
-      .should('be.visible')
-      .and('contain', "Score for question 4: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_5)
-      .should('be.visible')
-      .and('contain', "Score for question 5: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_6)
-      .should('be.visible')
-      .and('contain', "Score for question 6: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_7)
-      .should('be.visible')
-      .and('contain', "Score for question 7: 2");
-    cy.get(GRADE_MESSAGE_QUESTION_8)
-      .should('be.visible')
-      .and('contain', "Score for question 8: -1");
-    cy.get(GRADE_MESSAGE_QUESTION_9)
-      .should('be.visible')
-      .and('contain', "Score for question 9: -1");
-    cy.get(GRADE_MESSAGE_QUESTION_10)
-      .should('be.visible')
-      .and('contain', "Score for question 10: 0");
-  });
-
-  Then("the user should see a final score of {string}", (grade) => {
-    // Get the grade message element and validate that is visible and contains the expected text
-    cy.get(GRADE_EXAM_MESSAGE)
-      .should('be.visible')
-      .and('contain', grade);
-  });
-
-  Then("the final score should appear in green", () => {
-    // Get the grade message element and validate that its color is green
-    cy.get(GRADE_EXAM_MESSAGE)
-      .should('have.css', 'color', 'rgb(0, 128, 0)');
-  });
-
-  // SCENARIO 2
-
-When("the user answers 1 question correctly", () => {
-  // Get the correct answer for question 1 and select it
-  cy.get(CORRECT_ANSWER_QUESTION_1)
-    .check();
-});
-
-When("the user answers 8 questions incorrectly", () => {
-  // Get an incorrect answer for questions 2 to 9 and select them
-  cy.get(INCORRECT_ANSWER_QUESTION_2)
-  .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_3)
-  .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_4)
-  .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_5)
-    .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_6)
-    .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_7)
-  .check();
+  // Get an incorrect answer for questions 8 to 9 and select them
   cy.get(INCORRECT_ANSWER_QUESTION_8)
-  .check();
+    .check();
   cy.get(INCORRECT_ANSWER_QUESTION_9)
     .check();
 });
 
-Then("the user should see the questions correction", () => {
+When("the user leaves 1 question unanswered", () => {
+  // Without action, because the question 10 is left without answering
+});
+
+When("the user clicks on the Finish Exam button", () => {
+// Get the finish exam button and click on it
+cy.get(FINISH_EXAM_BUTTON)
+  .click();
+});
+
+Then("the user should see the corrected questions", () => {
   // Get the grade message element and validate that is visible and contains the expected text
   cy.get(GRADE_MESSAGE_QUESTION_1)
     .should('be.visible')
     .and('contain', "Score for question 1: 2");
   cy.get(GRADE_MESSAGE_QUESTION_2)
     .should('be.visible')
-    .and('contain', "Score for question 2: -1");
+    .and('contain', "Score for question 2: 2");
   cy.get(GRADE_MESSAGE_QUESTION_3)
     .should('be.visible')
-    .and('contain', "Score for question 3: -1");
+    .and('contain', "Score for question 3: 2");
   cy.get(GRADE_MESSAGE_QUESTION_4)
     .should('be.visible')
-    .and('contain', "Score for question 4: -1");
+    .and('contain', "Score for question 4: 2");
   cy.get(GRADE_MESSAGE_QUESTION_5)
     .should('be.visible')
-    .and('contain', "Score for question 5: -1");
+    .and('contain', "Score for question 5: 2");
   cy.get(GRADE_MESSAGE_QUESTION_6)
     .should('be.visible')
-    .and('contain', "Score for question 6: -1");
+    .and('contain', "Score for question 6: 2");
   cy.get(GRADE_MESSAGE_QUESTION_7)
     .should('be.visible')
-    .and('contain', "Score for question 7: -1");
+    .and('contain', "Score for question 7: 2");
   cy.get(GRADE_MESSAGE_QUESTION_8)
     .should('be.visible')
     .and('contain', "Score for question 8: -1");
@@ -183,8 +108,83 @@ Then("the user should see the questions correction", () => {
     .and('contain', "Score for question 10: 0");
 });
 
-Then("the final score should appear in red", () => {
+Then("the user should see a final score of {string}", (grade) => {
+  // Get the grade message element and validate that is visible and contains the expected text
+  cy.get(GRADE_EXAM_MESSAGE)
+    .should('be.visible')
+    .and('contain', grade);
+});
+
+Then("the final score should appear in green", () => {
   // Get the grade message element and validate that its color is green
   cy.get(GRADE_EXAM_MESSAGE)
-    .should('have.css', 'color', 'rgb(255, 0, 0)');
+    .should('have.css', 'color', 'rgb(0, 128, 0)');
+});
+
+// SCENARIO 2
+
+When("the user answers 1 question correctly", () => {
+// Get the correct answer for question 1 and select it
+cy.get(CORRECT_ANSWER_QUESTION_1)
+  .check();
+});
+
+When("the user answers 8 questions incorrectly", () => {
+// Get an incorrect answer for questions 2 to 9 and select them
+cy.get(INCORRECT_ANSWER_QUESTION_2)
+.check();
+cy.get(INCORRECT_ANSWER_QUESTION_3)
+.check();
+cy.get(INCORRECT_ANSWER_QUESTION_4)
+.check();
+cy.get(INCORRECT_ANSWER_QUESTION_5)
+  .check();
+cy.get(INCORRECT_ANSWER_QUESTION_6)
+  .check();
+cy.get(INCORRECT_ANSWER_QUESTION_7)
+.check();
+cy.get(INCORRECT_ANSWER_QUESTION_8)
+.check();
+cy.get(INCORRECT_ANSWER_QUESTION_9)
+  .check();
+});
+
+Then("the user should see the questions correction", () => {
+// Get the grade message element and validate that is visible and contains the expected text
+cy.get(GRADE_MESSAGE_QUESTION_1)
+  .should('be.visible')
+  .and('contain', "Score for question 1: 2");
+cy.get(GRADE_MESSAGE_QUESTION_2)
+  .should('be.visible')
+  .and('contain', "Score for question 2: -1");
+cy.get(GRADE_MESSAGE_QUESTION_3)
+  .should('be.visible')
+  .and('contain', "Score for question 3: -1");
+cy.get(GRADE_MESSAGE_QUESTION_4)
+  .should('be.visible')
+  .and('contain', "Score for question 4: -1");
+cy.get(GRADE_MESSAGE_QUESTION_5)
+  .should('be.visible')
+  .and('contain', "Score for question 5: -1");
+cy.get(GRADE_MESSAGE_QUESTION_6)
+  .should('be.visible')
+  .and('contain', "Score for question 6: -1");
+cy.get(GRADE_MESSAGE_QUESTION_7)
+  .should('be.visible')
+  .and('contain', "Score for question 7: -1");
+cy.get(GRADE_MESSAGE_QUESTION_8)
+  .should('be.visible')
+  .and('contain', "Score for question 8: -1");
+cy.get(GRADE_MESSAGE_QUESTION_9)
+  .should('be.visible')
+  .and('contain', "Score for question 9: -1");
+cy.get(GRADE_MESSAGE_QUESTION_10)
+  .should('be.visible')
+  .and('contain', "Score for question 10: 0");
+});
+
+Then("the final score should appear in red", () => {
+// Get the grade message element and validate that its color is green
+cy.get(GRADE_EXAM_MESSAGE)
+  .should('have.css', 'color', 'rgb(255, 0, 0)');
 });
