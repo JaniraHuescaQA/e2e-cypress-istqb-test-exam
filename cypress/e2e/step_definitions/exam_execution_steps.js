@@ -4,108 +4,103 @@ import {
   Then,
 } from "@badeball/cypress-cucumber-preprocessor";
 
-// Constants
+// CONSTANTS
+const ANSWERS = {
+  correct: {
+    1: 'c',
+    2: 'a',
+    3: 'a',
+    4: 'b',
+    5: 'c',
+    6: 'c',
+    7: 'a',
+    8: 'c',
+    9: 'a',
+    10: 'a',
+  },
+  incorrect: {
+    1: 'b',
+    2: 'b',
+    3: 'b',
+    4: 'c',
+    5: 'a',
+    6: 'a',
+    7: 'b',
+    8: 'b',
+    9: 'b',
+    10: 'b',
+  },
+};
 
-const CORRECT_ANSWER_QUESTION_1 = '[data-testid="q1-c"]';
-const CORRECT_ANSWER_QUESTION_2 = '[data-testid="q2-a"]';
-const CORRECT_ANSWER_QUESTION_3 = '[data-testid="q3-a"]';
-const CORRECT_ANSWER_QUESTION_4 = '[data-testid="q4-b"]';
-const CORRECT_ANSWER_QUESTION_5 = '[data-testid="q5-c"]';
-const CORRECT_ANSWER_QUESTION_6 = '[data-testid="q6-c"]';
-const CORRECT_ANSWER_QUESTION_7 = '[data-testid="q7-a"]';
-const INCORRECT_ANSWER_QUESTION_2 = '[data-testid="q2-b"]';
-const INCORRECT_ANSWER_QUESTION_3 = '[data-testid="q3-b"]';
-const INCORRECT_ANSWER_QUESTION_4 = '[data-testid="q4-c"]';
-const INCORRECT_ANSWER_QUESTION_5 = '[data-testid="q5-a"]';
-const INCORRECT_ANSWER_QUESTION_6 = '[data-testid="q6-a"]';
-const INCORRECT_ANSWER_QUESTION_7 = '[data-testid="q7-b"]';
-const INCORRECT_ANSWER_QUESTION_8 = '[data-testid="q8-b"]';
-const INCORRECT_ANSWER_QUESTION_9 = '[data-testid="q9-b"]';
 const FINISH_EXAM_BUTTON = '[data-testid="finish-exam-button"]';
-const GRADE_MESSAGE_QUESTION_1 = '[data-testid="grade-message1"]';
-const GRADE_MESSAGE_QUESTION_2 = '[data-testid="grade-message2"]';
-const GRADE_MESSAGE_QUESTION_3 = '[data-testid="grade-message3"]';
-const GRADE_MESSAGE_QUESTION_4 = '[data-testid="grade-message4"]';
-const GRADE_MESSAGE_QUESTION_5 = '[data-testid="grade-message5"]';
-const GRADE_MESSAGE_QUESTION_6 = '[data-testid="grade-message6"]';
-const GRADE_MESSAGE_QUESTION_7 = '[data-testid="grade-message7"]';
-const GRADE_MESSAGE_QUESTION_8 = '[data-testid="grade-message8"]';
-const GRADE_MESSAGE_QUESTION_9 = '[data-testid="grade-message9"]';
-const GRADE_MESSAGE_QUESTION_10 = '[data-testid="grade-message10"]';
 const GRADE_EXAM_MESSAGE = '[data-testid="grade-exam-message"]';
 
 
+// HELPER FUNCTIONS
 
-// SCENARIO 1
+// Answer a question (correctly, incorrectly, or leave unanswered)
+const answerQuestion = (index, answerType) => {
+  const answer = ANSWERS[answerType][index];
+  if (answer) {
+    cy.get(`[data-testid="q${index}-${answer}"]`).check();
+  }
+};
+
+// Validate corrected questions
+const validateQuestionScore = (index, expectedScore) => {
+  cy.get(`[data-testid="grade-message${index}"]`)
+    .should('be.visible')
+    .and('contain', `Score for question ${index}: ${expectedScore}`);
+};
+
+// Validate the color of the final score
+const validateFinalScoreColor = (color) => {
+  const colorMapping = {
+    green: 'rgb(0, 128, 0)',
+    red: 'rgb(255, 0, 0)',
+  };
+  cy.get(GRADE_EXAM_MESSAGE)
+    .should('have.css', 'color', colorMapping[color]);
+};
+
+
+// SCENARIO 1: Exam Passed
 
 When("the user answers 7 questions correctly", () => {
   // Get the correct answer for questions 1 to 7 and select them
-  cy.get(CORRECT_ANSWER_QUESTION_1)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_2)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_3)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_4)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_5)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_6)
-    .check();
-  cy.get(CORRECT_ANSWER_QUESTION_7)
-    .check();
+  for (let i = 1; i <= 7; i++) {
+    answerQuestion(i, 'correct');
+  }
 });
 
 When("the user answers 2 questions incorrectly", () => {
   // Get an incorrect answer for questions 8 to 9 and select them
-  cy.get(INCORRECT_ANSWER_QUESTION_8)
-    .check();
-  cy.get(INCORRECT_ANSWER_QUESTION_9)
-    .check();
+  for (let i = 8; i <= 9; i++) {
+    answerQuestion(i, 'incorrect');
+  }
 });
 
 When("the user leaves 1 question unanswered", () => {
-  // Without action, because the question 10 is left without answering
+  // No action required, as the question is left unanswered by default
 });
 
 When("the user clicks on the Finish Exam button", () => {
-// Get the finish exam button and click on it
-cy.get(FINISH_EXAM_BUTTON)
-  .click();
+  // Get the finish exam button and click on it
+  cy.get(FINISH_EXAM_BUTTON)
+    .click();
 });
 
 Then("the user should see the corrected questions", () => {
   // Get the grade message element and validate that is visible and contains the expected text
-  cy.get(GRADE_MESSAGE_QUESTION_1)
-    .should('be.visible')
-    .and('contain', "Score for question 1: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_2)
-    .should('be.visible')
-    .and('contain', "Score for question 2: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_3)
-    .should('be.visible')
-    .and('contain', "Score for question 3: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_4)
-    .should('be.visible')
-    .and('contain', "Score for question 4: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_5)
-    .should('be.visible')
-    .and('contain', "Score for question 5: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_6)
-    .should('be.visible')
-    .and('contain', "Score for question 6: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_7)
-    .should('be.visible')
-    .and('contain', "Score for question 7: 2");
-  cy.get(GRADE_MESSAGE_QUESTION_8)
-    .should('be.visible')
-    .and('contain', "Score for question 8: -1");
-  cy.get(GRADE_MESSAGE_QUESTION_9)
-    .should('be.visible')
-    .and('contain', "Score for question 9: -1");
-  cy.get(GRADE_MESSAGE_QUESTION_10)
-    .should('be.visible')
-    .and('contain', "Score for question 10: 0");
+  for (let i = 1; i <= 7; i++) {
+    validateQuestionScore(i, 2);
+  }
+
+  for (let i = 8; i <= 9; i++) {
+    validateQuestionScore(i, -1);
+  }
+
+  validateQuestionScore(10, 0);
 });
 
 Then("the user should see a final score of {string}", (grade) => {
@@ -117,74 +112,36 @@ Then("the user should see a final score of {string}", (grade) => {
 
 Then("the final score should appear in green", () => {
   // Get the grade message element and validate that its color is green
-  cy.get(GRADE_EXAM_MESSAGE)
-    .should('have.css', 'color', 'rgb(0, 128, 0)');
+  validateFinalScoreColor('green');
 });
 
-// SCENARIO 2
+
+// SCENARIO 2: Exam Failed
 
 When("the user answers 1 question correctly", () => {
-// Get the correct answer for question 1 and select it
-cy.get(CORRECT_ANSWER_QUESTION_1)
-  .check();
+  // Get the correct answer for question 1 and select it
+  answerQuestion(1, 'correct');
 });
 
 When("the user answers 8 questions incorrectly", () => {
-// Get an incorrect answer for questions 2 to 9 and select them
-cy.get(INCORRECT_ANSWER_QUESTION_2)
-.check();
-cy.get(INCORRECT_ANSWER_QUESTION_3)
-.check();
-cy.get(INCORRECT_ANSWER_QUESTION_4)
-.check();
-cy.get(INCORRECT_ANSWER_QUESTION_5)
-  .check();
-cy.get(INCORRECT_ANSWER_QUESTION_6)
-  .check();
-cy.get(INCORRECT_ANSWER_QUESTION_7)
-.check();
-cy.get(INCORRECT_ANSWER_QUESTION_8)
-.check();
-cy.get(INCORRECT_ANSWER_QUESTION_9)
-  .check();
+  // Get an incorrect answer for questions 2 to 9 and select them
+  for (let i = 2; i <= 9; i++) {
+    answerQuestion(i, 'incorrect');
+  }
 });
 
 Then("the user should see the questions correction", () => {
-// Get the grade message element and validate that is visible and contains the expected text
-cy.get(GRADE_MESSAGE_QUESTION_1)
-  .should('be.visible')
-  .and('contain', "Score for question 1: 2");
-cy.get(GRADE_MESSAGE_QUESTION_2)
-  .should('be.visible')
-  .and('contain', "Score for question 2: -1");
-cy.get(GRADE_MESSAGE_QUESTION_3)
-  .should('be.visible')
-  .and('contain', "Score for question 3: -1");
-cy.get(GRADE_MESSAGE_QUESTION_4)
-  .should('be.visible')
-  .and('contain', "Score for question 4: -1");
-cy.get(GRADE_MESSAGE_QUESTION_5)
-  .should('be.visible')
-  .and('contain', "Score for question 5: -1");
-cy.get(GRADE_MESSAGE_QUESTION_6)
-  .should('be.visible')
-  .and('contain', "Score for question 6: -1");
-cy.get(GRADE_MESSAGE_QUESTION_7)
-  .should('be.visible')
-  .and('contain', "Score for question 7: -1");
-cy.get(GRADE_MESSAGE_QUESTION_8)
-  .should('be.visible')
-  .and('contain', "Score for question 8: -1");
-cy.get(GRADE_MESSAGE_QUESTION_9)
-  .should('be.visible')
-  .and('contain', "Score for question 9: -1");
-cy.get(GRADE_MESSAGE_QUESTION_10)
-  .should('be.visible')
-  .and('contain', "Score for question 10: 0");
+  // Get the grade message element and validate that is visible and contains the expected text
+  validateQuestionScore(1, 2);
+
+  for (let i = 2; i <= 9; i++) {
+    validateQuestionScore(i, -1);
+  }
+
+  validateQuestionScore(10, 0);
 });
 
 Then("the final score should appear in red", () => {
-// Get the grade message element and validate that its color is green
-cy.get(GRADE_EXAM_MESSAGE)
-  .should('have.css', 'color', 'rgb(255, 0, 0)');
+  // Get the grade message element and validate that its color is green
+  validateFinalScoreColor('red');
 });
