@@ -5,6 +5,7 @@ import {
 } from "@badeball/cypress-cucumber-preprocessor";
 
 // SELECTORS (constants)
+
 // Define selectors for DOM elements used in the tests
 const SELECTORS = {
   firstNameField: '[data-testid="firstname"]',
@@ -17,6 +18,7 @@ const SELECTORS = {
 };
 
 // HELPER FUNCTIONS
+
 // Fill an input field by selector and value
 const fillInputField = (selector, value) => {
   cy.get(selector)
@@ -37,17 +39,6 @@ const validateVisibility = (selector, shouldBeVisible) => {
   cy.get(selector)
     .should(visibilityCheck);
 };
-
-/*// Constants
-
-const FIRST_NAME_FIELD = '[data-testid="firstname"]';
-const LAST_NAME_FIELD = '[data-testid="lastname"]';
-const SIGNUP_BUTTON = '[data-testid="signupstudentbutton"]';
-const ERROR_MESSAGE = '[data-testid="signuperrormessage"]';
-const WELCOME_MESSAGE = '[data-testid="signupwelcomemessage"]';
-const EXAM_SECTION = '[data-testid="examsection"]';
-const SIGNUP_FORM = '[data-testid="signupform"]';
-*/
 
 
 // SCENARIO 1: Empty First Name and Last Name
