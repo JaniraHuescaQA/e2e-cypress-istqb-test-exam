@@ -27,21 +27,30 @@ const fillInputField = (selector, value) => {
 };
 
 // Validate an element's visibility and text content
+const MESSAGE_SELECTORS = {
+  "error": SELECTORS.errorMessage,
+  "welcome": SELECTORS.welcomeMessage,
+}
 const validateElementContent = (selector, expectedText) => {
   cy.get(selector)
     .should('be.visible')
     .and('contain', expectedText);
 };
 
-// Validate element visibility
-const validateVisibility = (selector, shouldBeVisible) => {
-  const visibilityCheck = shouldBeVisible ? 'be.visible' : 'not.be.visible';
+// Validate element visibility based on the provided visibility text ("be visible" or "not be visible")
+const ELEMENT_SELECTORS = {
+  "ISTQB exam section": SELECTORS.examSection,
+  "registration form": SELECTORS.signUpForm,
+};
+const validateVisibility = (element, visibilityText) => {
+  const selector = ELEMENT_SELECTORS[element]
+  const visibilityCheck = visibilityText === "be visible" ? 'be.visible' : 'not.be.visible';
   cy.get(selector)
     .should(visibilityCheck);
 };
 
 
-// SCENARIO 1: Empty First Name and Last Name
+// SCENARIO 1 and SCENARIO 2: Empty first name and last name and Valid first name and last name
 
 When("the user fills the first name field with {string}", (firstname) => {
   // Get the first name element, clear the content and fill the first name
@@ -59,37 +68,13 @@ When("the user clicks on the Sign Up button", () => {
     .click();
 });
 
-Then("the user should see an error message containing {string}", (errormessage) => {
-  // Get the error message element and validate that is visible and contains the expected text
-  validateElementContent(SELECTORS.errorMessage, errormessage);
+Then("the user should see the following {string} message containing {string}", (messageType, expectedText) => {
+  // Get the message type and validate that is visible and contains the expected text
+  const selector = MESSAGE_SELECTORS[messageType];
+  validateElementContent(selector, expectedText);
 });
 
-Then("the ISTQB exam section should not appear", () => {
-  // Get the exam section and validate that does not appear
-  validateVisibility(SELECTORS.examSection, false);
-});
-
-Then("the registration form should remain visible", () => {
-  // Get the registration form and validate that is visible
-  validateVisibility(SELECTORS.signUpForm, true);
-});
-
-
-// SCENARIO 2: Valid First Name and Last Name
-
-// When conditions are being reutilized from Scenario 1
-
-Then("the registration form should disappear", () => {
-  // Get the registration form and validate that does not appear
-  validateVisibility(SELECTORS.signUpForm, false);
-});
-
-Then("the user should see the following welcome message {string}", (welcomemessage) => {
-  // Get the welcome message element and validate that is visible and contains the expected text
-  validateElementContent(SELECTORS.welcomeMessage, welcomemessage);
-});
-
-Then("the ISTQB exam section should be displayed", () => {
-  // Get the exam section and validate that appears
-  validateVisibility(SELECTORS.examSection, true);
+Then("the {string} should {string}", (element, visibilityText) => {
+  // Get the section (element) and check its visibility
+  validateVisibility(element, visibilityText);
 });
